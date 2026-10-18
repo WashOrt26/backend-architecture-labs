@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 50px; background-color: #eceff1; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); max-width: 450px; }
+        input, button { padding: 12px; margin: 8px 0; width: 100%; box-sizing: border-box; border-radius: 6px; }
+        input { border: 2px solid #b0bec5; font-size: 16px; }
+        button { background-color: #2e7d32; color: white; border: none; font-weight: bold; cursor: pointer; }
+        button:hover { background-color: #1b5e20; }
+        ul { padding-left: 20px; color: #37474f; }
+    </style>
+    <title>Frontend client</title>
+</head>
+<body>
+    
+    <div class="card">
+        <h2>Network panel</h2>
+        
+        <label>User name:</label>
+        <input type="text" id="inputName" placeholder="Type your name here..." />
+        <button onclick="sendPostRequest()">Emit POST to the API</button>
+
+        <h3>Records detected in the database:</h3>
+        <ul id="UsersList"></ul>
+    </div>
+
+    <script>
+        // Ip address of the API endpoint (localhost)
+        const ENDPOINT_URL = "http://127.0.0";
+
+        // Request 1: HTTP GET (Reception and reading of payload)
+        async function requestUsers() {
+            try {
+                const HTTP_Response = await fetch(ENDPOINT_URL);
+                const datosJson = await HTTP_Response.json();
+                
+                const ul = document.getElementById("UsersList");
+                ul.innerHTML = ""; // Reset the list to avoid duplicates
+                
+                datosJson.forEach(user => {
+                    const li = document.createElement("li");
+                    li.textContent = `[ID: ${user.id}] - Registro: ${user.name}`;
+                    ul.appendChild(li);
+                });
+            } catch (error) {
+                console.error("Communication error in the network:", error);
+            }
+        }
+
+        // Request 2: HTTP POST (Emission and writing of payload)
+        async function sendPostRequest() {
+            const inputHtml = document.getElementById("inputName");
+            const textname = inputHtml.value.trim();
+
+            if (!textname) return alert("Please insert valid characters.");
+
+            try {
+                // package the data in JSON format and send it to the API endpoint
+                await fetch(ENDPOINT_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" }, // meta-data for the server to understand the payload format
+                    body: JSON.stringify({ name: textname })    // make the payload a JSON string
+                });
+
+                inputHtml.value = ""; // clear the input field after sending the data
+                requestUsers();    //shoot a new GET request to refresh the list of users after the POST request
+            } catch (error) {
+                alert("Error al inyectar datos a través de la API.");
+            }
+        }
+
+        // autorun the GET request to populate the list of users when the page loads
+        requestUsers();
+    </script>
+</body>
+</html>
