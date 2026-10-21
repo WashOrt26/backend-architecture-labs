@@ -93,17 +93,8 @@ As a systems engineering student focusing on infrastructure and cybersecurity, t
 
 To verify that the API contracts, routing, and relational database connections are fully operational, you can audit the endpoints natively via the auto-generated Swagger interactive interface. 
 
-Below is a live trace of the **v0.1 Beta** schema engine running on the local loopback interface:
----
 
-
-
-
-![FastAPI Swagger UI Documentation](image.png)
-
----
-
-## 📑 API Endpoint Reference (v0.1)
+## API Endpoint Reference (v0.1)
 
 | Method | Endpoint           | Payload Type | Description                                                                           |
 |:------ |:------------------ |:------------ |:------------------------------------------------------------------------------------- |
@@ -112,7 +103,7 @@ Below is a live trace of the **v0.1 Beta** schema engine running on the local lo
 
 ---
 
-## 🚀 Next Milestones: Moving into Cybersecurity (v0.2 Roadmap)
+## Next Milestones: Moving into Cybersecurity (v0.2 Roadmap)
 
 As this project scales up from a developmental base to a security-hardened infrastructure, the next iterative improvements will implement:
 
